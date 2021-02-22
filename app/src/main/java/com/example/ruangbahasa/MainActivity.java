@@ -16,7 +16,16 @@ import android.widget.ProgressBar;
 public class MainActivity extends AppCompatActivity {
     private WebView web;
     private ProgressBar progressBar;
-    private String URL = "http://ruang-bahasa.my.id/";
+    private String URL = "http://ruang-bahasa.my.id";
+
+    @Override
+    public void onBackPressed() {
+        if (web.canGoBack()){
+            web.goBack();
+        }else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         Setting();
         Loadding();
+
 
     }
 
@@ -74,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        web.setWebViewClient(new WebViewClient());
         web.loadUrl(URL);
     }
 }
