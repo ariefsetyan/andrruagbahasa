@@ -1,6 +1,7 @@
 package com.example.ruangbahasa;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private WebView web;
     private ProgressBar progressBar;
     private String URL = "http://ruang-bahasa.my.id";
+    private SwipeRefreshLayout finalMySwipeRefreshLayout1;
 
     @Override
     public void onBackPressed() {
@@ -37,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
         Setting();
         Loadding();
 
+
+        finalMySwipeRefreshLayout1 = findViewById(R.id.swipe);
+        finalMySwipeRefreshLayout1.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                web.loadUrl(web.getUrl());
+                finalMySwipeRefreshLayout1.setRefreshing(false);
+
+            }
+        });
 
     }
 
@@ -63,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setProgress(newProgress);
                 if(newProgress == 100){
-                    //ProgressBar akan Menghilang setelah Valuenya mencapat 100%
                     progressBar.setVisibility(View.GONE);
                 }
                 super.onProgressChanged(view, newProgress);
@@ -80,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 //ProgressBar akan Menghilang setelah Halaman Selesai Dimuat
                 super.onPageFinished(view, url);
+
                 progressBar.setVisibility(View.GONE);
             }
         });
